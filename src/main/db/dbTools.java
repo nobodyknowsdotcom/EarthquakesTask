@@ -21,7 +21,7 @@ public class dbTools {
                     "(NAME     CHAR(50) NOT NULL, " +
                     "PRODUCTID CHAR(10) PRIMARY KEY NOT NULL," +
                     "PRICE   FLOAT  NOT NULL, " +
-                    "COUNT      INT  NOT NULL )";
+                    "AMOUNT      INT  NOT NULL )";
             statement.executeUpdate(create_sql);
             int i = 0;
 
@@ -43,7 +43,7 @@ public class dbTools {
             statement.executeBatch();
             statement.close();
             connection.close();
-            System.out.println("Successfully updated " + i + " lines");
+            System.out.printf("Successfully updated %s lines%n", i);
         } catch ( Exception e ) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
