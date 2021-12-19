@@ -1,14 +1,14 @@
-package main;
+package main.db;
 
 import java.sql.*;
 
-public class dbconnection {
+public class dbСonnection {
     private Connection connection = null;
 
-    public dbconnection(){
+    public dbСonnection(){
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:./src/catalog.sqlite");
+            connection = DriverManager.getConnection("jdbc:sqlite:./catalog.sqlite");
             System.out.println("Connected to database successfully");
         } catch (Exception e) {
             e.printStackTrace();
