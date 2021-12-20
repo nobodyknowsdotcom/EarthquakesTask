@@ -23,7 +23,7 @@ public class HistogramTools {
             addMedianPrice(conn, dataset, "Термометр");
             addMedianPrice(conn, dataset, "Нагреватель для аквариума");
             addMedianPrice(conn, dataset, "Помпа для аквариума");
-            addMedianPrice(conn, dataset, "Фильтр для аквариума");
+            addMedianPrice(conn, dataset, "Лоток для кормления цыплят");
         } catch (SQLException e) {
             e.printStackTrace();
         }
