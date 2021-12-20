@@ -1,45 +1,61 @@
 package histogramtools;
 
+import java.awt.*;
 import java.io.*;
-import java.util.Random;
+import java.sql.Connection;
+import java.sql.SQLException;
+import db.DbTools;
 import org.jfree.chart.*;
-import org.jfree.data.statistics.*;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.chart.plot.PlotOrientation;
 
 public class HistogramTools {
-    public static void main(String ... args) {
-        CreateHistogram("TestHistogram.png", "Name", "Price", 800, 500);
-    }
-
-
-    public static void CreateHistogram(String name, String XAxis, String YAxis, int width, int height) {
-        double[] value = new double[100];
-        Random generator = new Random();
-        HistogramDataset dataset = new HistogramDataset();
-        String plotTitle = name.split("\\.")[0];
-        PlotOrientation orientation = PlotOrientation.VERTICAL;
-        dataset.setType(HistogramType.RELATIVE_FREQUENCY);
-        boolean show = false;
-        boolean toolTips = false;
-        boolean urls = false;
-        JFreeChart chart = ChartFactory.createHistogram(plotTitle, XAxis, YAxis,
-                dataset, orientation, show, toolTips, urls);
-
-        for (int i=1; i < 100; i++) {
-            value[i] = generator.nextDouble();
-            int number = 10;
-            dataset.addSeries("Histogram", value, number);
+    public static void CreateHistogram(String filename, Connection conn, String XAxis, String YAxis, int width, int height) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        try {
+            addMedianPrice(conn, dataset, "Аквариум");
+            addMedianPrice(conn, dataset, "Автокормушка");
+            addMedianPrice(conn, dataset, "Фильтр для аквариума");
+            addMedianPrice(conn, dataset, "Щетка Catidea");
+            addMedianPrice(conn, dataset, "Туалет Catidea");
+            addMedianPrice(conn, dataset, "Кормушка педальная");
+            addMedianPrice(conn, dataset, "Термометр");
+            addMedianPrice(conn, dataset, "Нагреватель для аквариума");
+            addMedianPrice(conn, dataset, "Помпа для аквариума");
+            addMedianPrice(conn, dataset, "Фильтр для аквариума");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        String title = filename.split("\\.")[0];
+        JFreeChart chart = ChartFactory.createBarChart(
+                title,
+                XAxis,
+                YAxis,
+                dataset,
+                PlotOrientation.VERTICAL,
+                true,                     // include legend
+                false,                     // tooltips
+                false                     // URLs
+        );
 
-        SaveHistogram(chart, name, width, height);
+        CategoryPlot plot = chart.getCategoryPlot();
+        plot.setBackgroundPaint(new Color(212, 212, 212));
+        plot.setDomainGridlinePaint(Color.white);
+        plot.setRangeGridlinePaint (Color.white);
+        SaveHistogram(chart, filename, width, height);
     }
 
-    public static void SaveHistogram(JFreeChart chart, String name, int width, int height) {
+    private static void addMedianPrice(Connection conn, DefaultCategoryDataset dataset, String rowKey) throws SQLException {
+        dataset.addValue(DbTools.getMedianPrice(conn, rowKey), rowKey, "");
+    }
+
+    private static void SaveHistogram(JFreeChart chart, String name, int width, int height) {
         try {
             ChartUtilities.saveChartAsPNG(new File(name), chart, width, height);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.print("Histogram saved successfully!");
+        System.out.print("Histogram \"" +name+ "\" saved successfully!");
     }
 }
