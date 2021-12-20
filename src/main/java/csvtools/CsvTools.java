@@ -1,4 +1,4 @@
-package main.java.csvtools;
+package csvtools;
 
 import main.java.product.Product;
 

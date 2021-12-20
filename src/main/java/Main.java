@@ -1,6 +1,5 @@
-import main.java.csvtools.CsvTools;
-import main.java.db.DbTools;
-import main.java.db.DbConnection;
+import csvtools.CsvTools;
+import db.*;
 
 import java.io.IOException;
 

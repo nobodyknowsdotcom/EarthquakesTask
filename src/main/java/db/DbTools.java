@@ -1,4 +1,4 @@
-package main.java.db;
+package db;
 
 import main.java.product.Product;
 
