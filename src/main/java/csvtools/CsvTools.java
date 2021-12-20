@@ -1,6 +1,6 @@
 package main.java.csvtools;
 
-import main.java.Product.Product;
+import main.java.product.Product;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
 
-public class csvTools {
+public class CsvTools {
     private Connection connection;
 
-    public csvTools(Connection connection) {
+    public CsvTools(Connection connection) {
         this.connection = connection;
     }
 

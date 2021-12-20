@@ -1,13 +1,13 @@
 package main.java.db;
 
-import main.java.Product.Product;
+import main.java.product.Product;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.List;
 
-public class dbTools {
+public class DbTools {
     public static void updateProducts(Connection conn, List<Product> products) {
         Connection connection;
         Statement statement;

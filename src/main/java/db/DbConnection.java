@@ -1,11 +1,11 @@
-package main.db;
+package main.java.db;
 
 import java.sql.*;
 
-public class dbСonnection {
+public class DbConnection {
     private Connection connection = null;
 
-    public dbСonnection(){
+    public DbConnection(){
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:./catalog.sqlite");
