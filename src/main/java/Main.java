@@ -1,5 +1,3 @@
-package main.java;
-
 import main.java.csvtools.CsvTools;
 import main.java.db.DbTools;
 import main.java.db.DbConnection;
