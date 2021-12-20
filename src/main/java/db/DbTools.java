@@ -4,6 +4,7 @@ import main.java.product.Product;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
@@ -48,5 +49,14 @@ public class DbTools {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
+    }
+
+    public static double getMedianPrice(Connection conn, String name) throws SQLException {
+        String querry = "SELECT AVG(PRICE) FROM Products " +
+                "WHERE NAME LIKE '%"+name+"%'";
+        Statement statement = conn.createStatement();
+        statement.execute(querry);
+        var result = statement.getResultSet();
+        return Double.parseDouble(result.getString(1));
     }
 }
