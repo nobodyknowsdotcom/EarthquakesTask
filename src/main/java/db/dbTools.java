@@ -1,6 +1,6 @@
-package main.db;
+package main.java.db;
 
-import main.Product.Product;
+import main.java.Product.Product;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

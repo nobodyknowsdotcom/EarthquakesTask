@@ -1,6 +1,6 @@
-package main.db;
+package main.java.csvtools;
 
-import main.Product.Product;
+import main.java.Product.Product;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
