@@ -3,19 +3,15 @@ package db;
 import java.sql.*;
 
 public class DbConnection {
-    private Connection connection = null;
-
-    public DbConnection(){
+    public static Connection getConnection(String path){
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:./catalog.sqlite");
+            var conn = DriverManager.getConnection(path);
             System.out.println("Connected to database successfully");
+            return conn;
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public Connection getConnection() {
-        return connection;
+        return null;
     }
 }
