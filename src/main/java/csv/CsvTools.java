@@ -1,4 +1,4 @@
-package csvtools;
+package csv;
 
 import main.java.product.Product;
 
@@ -11,14 +11,11 @@ import java.util.List;
 import java.sql.*;
 
 public class CsvTools {
-    private Connection connection;
 
     public CsvTools(Connection connection) {
-        this.connection = connection;
     }
 
     public static List<Product> ParseProductCsv(String filePath) throws IOException {
-        //Загружаем строки из файла
         List<Product> products = new ArrayList<>();
         List<String> fileLines = Files.readAllLines(Paths.get(filePath), StandardCharsets.UTF_8);
         fileLines.remove(0);
@@ -28,7 +25,6 @@ public class CsvTools {
             ArrayList<String> columnList = new ArrayList<>();
 
             for (String s : splitedText) {
-                //Если колонка начинается на кавычки или заканчивается на кавычки
                 if (IsColumnPart(s)) {
                     String lastText = columnList.get(columnList.size() - 1);
                     columnList.set(columnList.size() - 1, lastText + "," + s);
@@ -48,11 +44,6 @@ public class CsvTools {
 
     private static boolean IsColumnPart(String text) {
         String trimText = text.trim();
-        //Если в тексте одна ковычка и текст на нее заканчиваеться значит это часть предыдущей колонки
         return trimText.indexOf("\"") == trimText.lastIndexOf("\"") && trimText.endsWith("\"");
-    }
-
-    public Connection getConnection() {
-        return connection;
     }
 }

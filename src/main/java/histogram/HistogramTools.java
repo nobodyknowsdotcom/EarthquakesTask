@@ -1,4 +1,4 @@
-package histogramtools;
+package histogram;
 
 import java.awt.*;
 import java.io.*;

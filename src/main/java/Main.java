@@ -1,6 +1,6 @@
-import csvtools.CsvTools;
+import csv.CsvTools;
 import db.*;
-import histogramtools.HistogramTools;
+import histogram.HistogramTools;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -13,7 +13,6 @@ public class Main {
          * CreateHistogram создает гистограмму со средними ценами товаров, представленных в БД несколькими видами
          */
         var connection = DbConnection.getConnection("jdbc:sqlite:./catalog.sqlite");
-        CsvTools csv = new CsvTools(connection);
         try {
             var data = CsvTools.ParseProductCsv("./catalog.csv");
             DbTools.updateProducts(connection, data);
@@ -24,7 +23,6 @@ public class Main {
                     "Средняя цена, р.",
                     800,
                     500);
-
             if (connection != null) {
                 connection.close();
             }
