@@ -51,7 +51,7 @@ public class HistogramTools {
 
     public static void SaveHistogram(JFreeChart chart, String name, int width, int height) {
         try {
-            ChartUtilities.saveChartAsPNG(new File(name), chart, width, height);
+            ChartUtilities.saveChartAsPNG(new File("./pics/" + name), chart, width, height);
         } catch (IOException e) {
             e.printStackTrace();
         }

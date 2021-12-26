@@ -3,17 +3,17 @@
 ---
 
 ## Гистограмма средних цен товаров, имеющих несколько разновидностей
-![ProductsAveragePrice.png](ProductsAveragePrice.png)
+![ProductsAveragePrice.png](pics/ProductsAveragePrice.png)
 
 ---
 
 ## Средняя стоимость инфракрасной лампы
-![LampAvgPrice.png](LampAvgPrice.png)
+![LampAvgPrice.png](pics/LampAvgPrice.png)
 
 ---
 
 ## Выборка 5 самых дорогих товаров с остатком на складе больше 10
-![TopByPrice.png](TopByPrice.png)
+![TopByPrice.png](pics/TopByPrice.png)
 
 ---
 
