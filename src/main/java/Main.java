@@ -17,12 +17,12 @@ public class Main {
             var data = CsvTools.ParseProductCsv("./catalog.csv");
             DbTools.updateProducts(connection, data);
 
-            HistogramTools.CreateHistogram("ProductsAveragePrice.png",
-                    DbConnection.getConnection("jdbc:sqlite:./catalog.sqlite"),
+            var histogram = HistogramTools.CreateHistogram(
+                    "Средняя цена товаров, имеющих несколько разновидностей",
+                    connection,
                     "Товары",
-                    "Средняя цена, р.",
-                    800,
-                    500);
+                    "Средняя цена, р.");
+            HistogramTools.SaveHistogram(histogram, "ProductsAveragePrice.png", 1000, 600);
             if (connection != null) {
                 connection.close();
             }

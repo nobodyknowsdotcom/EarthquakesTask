@@ -11,7 +11,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.chart.plot.PlotOrientation;
 
 public class HistogramTools {
-    public static void CreateHistogram(String filename, Connection conn, String XAxis, String YAxis, int width, int height) {
+    public static JFreeChart CreateHistogram(String title, Connection conn, String XAxis, String YAxis) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         try {
             addMedianPrice(conn, dataset, "Аквариум");
@@ -27,7 +27,6 @@ public class HistogramTools {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        String title = filename.split("\\.")[0];
         JFreeChart chart = ChartFactory.createBarChart(
                 title,
                 XAxis,
@@ -43,14 +42,14 @@ public class HistogramTools {
         plot.setBackgroundPaint(new Color(212, 212, 212));
         plot.setDomainGridlinePaint(Color.white);
         plot.setRangeGridlinePaint (Color.white);
-        SaveHistogram(chart, filename, width, height);
+        return chart;
     }
 
     private static void addMedianPrice(Connection conn, DefaultCategoryDataset dataset, String rowKey) throws SQLException {
         dataset.addValue(DbTools.getMedianPrice(conn, rowKey), rowKey, "");
     }
 
-    private static void SaveHistogram(JFreeChart chart, String name, int width, int height) {
+    public static void SaveHistogram(JFreeChart chart, String name, int width, int height) {
         try {
             ChartUtilities.saveChartAsPNG(new File(name), chart, width, height);
         } catch (IOException e) {
