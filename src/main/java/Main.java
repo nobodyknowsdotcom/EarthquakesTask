@@ -11,12 +11,12 @@ public class Main {
          * Подключается к базе данных по пути ./catalog.sqlite и парсит в Products все из ./catalog.csv
          * Если в БД уже существует таблица Product, то она удаляется и заполняется данными из ./catalog.csv
          * CreateHistogram создает гистограмму со средними ценами товаров, представленных в БД несколькими видами
-         * SaveHistogram сохраняет изображение гистограммы в папку проекта
+         * SaveHistogram сохраняет изображение гистограммы в папку проекта.
          */
-        var connection = DbConnection.getConnection("jdbc:sqlite:./catalog.sqlite");
+        var connection = Db.getConnection("jdbc:sqlite:./catalog.sqlite");
         try {
             var data = CsvTools.ParseProductCsv("./catalog.csv");
-            DbTools.updateProducts(connection, data);
+            Db.updateProducts(connection, data);
 
             var histogram = HistogramTools.CreateHistogram(
                     "Средняя цена товаров, имеющих несколько разновидностей",

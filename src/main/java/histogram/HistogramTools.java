@@ -4,7 +4,8 @@ import java.awt.*;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import db.DbTools;
+
+import db.Db;
 import org.jfree.chart.*;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -28,14 +29,14 @@ public class HistogramTools {
             e.printStackTrace();
         }
         JFreeChart chart = ChartFactory.createBarChart(
-                title,
-                XAxis,
-                YAxis,
-                dataset,
-                PlotOrientation.VERTICAL,
-                true,                     // include legend
-                false,                     // tooltips
-                false                     // URLs
+            title,
+            XAxis,
+            YAxis,
+            dataset,
+            PlotOrientation.VERTICAL,
+            true,
+            false,
+            false
         );
 
         CategoryPlot plot = chart.getCategoryPlot();
@@ -46,7 +47,7 @@ public class HistogramTools {
     }
 
     private static void addMedianPrice(Connection conn, DefaultCategoryDataset dataset, String rowKey) throws SQLException {
-        dataset.addValue(DbTools.getMedianPrice(conn, rowKey), rowKey, "");
+        dataset.addValue(Db.getMedianPrice(conn, rowKey), rowKey, "");
     }
 
     public static void SaveHistogram(JFreeChart chart, String name, int width, int height) {

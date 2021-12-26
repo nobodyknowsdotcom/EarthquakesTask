@@ -1,15 +1,24 @@
 package db;
 
-import main.java.product.Product;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-public class DbTools {
-    public static void updateProducts(Connection conn, List<Product> products) {
+public class Db {
+    public static Connection getConnection(String path){
+        try {
+            Class.forName("org.sqlite.JDBC");
+            var conn = DriverManager.getConnection(path);
+            System.out.println("Connected to database successfully");
+            return conn;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static void updateProducts(Connection conn, List<main.java.product.Product> products) {
         Connection connection;
         Statement statement;
         try {
