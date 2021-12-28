@@ -1,6 +1,6 @@
 import csv.CsvTools;
 import db.*;
-import histogram.HistogramTools;
+import histogram.Histogram;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -18,12 +18,12 @@ public class Main {
             var data = CsvTools.ParseProductCsv("./catalog.csv");
             Db.updateProducts(connection, data);
 
-            var histogram = HistogramTools.CreateHistogram(
+            var histogram = Histogram.CreateHistogram(
                     "Средняя цена товаров, имеющих несколько разновидностей",
                     connection,
                     "Товары",
                     "Средняя цена, р.");
-            HistogramTools.SaveHistogram(histogram, "ProductsAveragePrice.png", 1000, 600);
+            Histogram.SaveHistogram(histogram, "ProductsAveragePrice.png", 1000, 600);
             if (connection != null) {
                 connection.close();
             }

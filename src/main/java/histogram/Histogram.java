@@ -11,7 +11,7 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.chart.plot.PlotOrientation;
 
-public class HistogramTools {
+public class Histogram {
     public static JFreeChart CreateHistogram(String title, Connection conn, String XAxis, String YAxis) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         try {
