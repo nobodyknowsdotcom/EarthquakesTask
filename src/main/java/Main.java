@@ -1,29 +1,30 @@
 import csv.CsvTools;
 import db.*;
 import histogram.Histogram;
+import model.Earthquake;
+
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
         /*
-         * Подключается к базе данных по пути ./catalog.sqlite и парсит в Products все из ./catalog.csv
-         * Если в БД уже существует таблица Product, то она удаляется и заполняется данными из ./catalog.csv
-         * CreateHistogram создает гистограмму со средними ценами товаров, представленных в БД несколькими видами
-         * SaveHistogram сохраняет изображение гистограммы в папку проекта.
+         * Подключается к базе данных по пути ./catalog.sqlite и парсит в Earthquakes все из ./Earthquakes.csv
+         * Если в БД уже существует таблица Earthquakes, то она удаляется и заполняется данными из ./Earthquakes.csv
          */
         var connection = Db.getConnection("jdbc:sqlite:./catalog.sqlite");
         try {
-            var data = CsvTools.ParseProductCsv("./catalog.csv");
-            Db.updateProducts(connection, data);
+            List<Earthquake> data = CsvTools.ParseProductCsv("./Earthquakes.csv");
+            Db.update(data);
 
             var histogram = Histogram.CreateHistogram(
-                    "Средняя цена товаров, имеющих несколько разновидностей",
+                    "Среднее кол-во землятресений в год",
                     connection,
-                    "Товары",
-                    "Средняя цена, р.");
-            Histogram.SaveHistogram(histogram, "ProductsAveragePrice.png", 1000, 600);
+                    "Год",
+                    "Количество землятресений");
+            Histogram.SaveHistogram(histogram, "Earthquakes_By_Years.png", 1000, 600);
             if (connection != null) {
                 connection.close();
             }

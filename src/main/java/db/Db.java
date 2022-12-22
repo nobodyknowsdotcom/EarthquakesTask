@@ -1,9 +1,9 @@
 package db;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import model.Earthquake;
+
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Db {
@@ -18,35 +18,36 @@ public class Db {
         }
         return null;
     }
-    public static void updateProducts(Connection conn, List<main.java.product.Product> products) {
+    public static void update(List<Earthquake> earthquakes) {
         Connection connection;
         Statement statement;
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:./catalog.sqlite");
             statement = connection.createStatement();
-            String drop_sql = "DROP TABLE IF EXISTS Products";
+            String drop_sql = "DROP TABLE IF EXISTS Earthquakes";
             statement.executeUpdate(drop_sql);
-            String create_sql = "CREATE TABLE Products " +
-                    "(NAME     CHAR(50) NOT NULL, " +
-                    "PRODUCTID CHAR(10) PRIMARY KEY NOT NULL," +
-                    "PRICE   FLOAT  NOT NULL, " +
-                    "AMOUNT      INT  NOT NULL )";
+            String create_sql = "CREATE TABLE Earthquakes " +
+                    "(ID     CHAR(50) PRIMARY KEY NOT NULL, " +
+                    "DEPTH INT NOT NULL," +
+                    "TYPE   CHAR(30)  NOT NULL, " +
+                    "MAGNITUDE      FLOAT  NOT NULL," +
+                    "STATE      CHAR(30)  NOT NULL," +
+                    "YEAR      INT  NOT NULL )";
+
             statement.executeUpdate(create_sql);
             int i = 0;
 
-            while (i < products.size()){
-                var product = products.get(i);
-                String name = product.Name;
-                String id = product.Id;
-                double price = product.Price;
-                int amount = product.Amount;
+            while (i < earthquakes.size()){
+                var earthquake = earthquakes.get(i);
 
-                String query = "INSERT INTO Products VALUES (" +
-                        "'" + name + "', " +
-                        "'" + id + "', " +
-                        "'" + price +  "', " +
-                        "'" + amount + "')";
+                String query = "INSERT INTO Earthquakes VALUES (" +
+                        "'" + earthquake.getId() + "', " +
+                        "'" + earthquake.getDepth() + "', " +
+                        "'" + earthquake.getType() +  "', " +
+                        "'" + earthquake.getMagnitude() +  "', " +
+                        "'" + earthquake.getState() +  "', " +
+                        "'" + earthquake.getYear() + "')";
                 statement.addBatch(query);
                 i++;
             }
@@ -60,12 +61,25 @@ public class Db {
         }
     }
 
-    public static double getMedianPrice(Connection conn, String name) throws SQLException {
-        String querry = "SELECT AVG(PRICE) FROM Products " +
-                "WHERE NAME LIKE '%"+name+"%'";
+    public static int getEarthquakesCountByYear(Connection conn, int year) throws SQLException {
+        String query = String.format("SELECT COUNT(*) FROM Earthquakes WHERE YEAR=%s", year);
         Statement statement = conn.createStatement();
-        statement.execute(querry);
+        statement.execute(query);
         var result = statement.getResultSet();
-        return Double.parseDouble(result.getString(1));
+        return result.getInt("COUNT(*)");
+    }
+
+    public static List<Integer> getAllYears(Connection conn) throws SQLException {
+        List<Integer> result = new ArrayList<>();
+        String query = "SELECT DISTINCT YEAR FROM Earthquakes ORDER BY YEAR";
+        Statement statement = conn.createStatement();
+        statement.execute(query);
+        ResultSet rs = statement.getResultSet();
+
+        while (rs.next()) {
+            int i = rs.getInt("YEAR");
+            result.add(i);
+        }
+        return result;
     }
 }

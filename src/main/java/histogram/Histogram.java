@@ -2,6 +2,7 @@ package histogram;
 
 import java.awt.*;
 import java.io.*;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -15,16 +16,10 @@ public class Histogram {
     public static JFreeChart CreateHistogram(String title, Connection conn, String XAxis, String YAxis) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         try {
-            addMedianPrice(conn, dataset, "Аквариум");
-            addMedianPrice(conn, dataset, "Автокормушка");
-            addMedianPrice(conn, dataset, "Фильтр для аквариума");
-            addMedianPrice(conn, dataset, "Щетка Catidea");
-            addMedianPrice(conn, dataset, "Туалет Catidea");
-            addMedianPrice(conn, dataset, "Кормушка педальная");
-            addMedianPrice(conn, dataset, "Термометр");
-            addMedianPrice(conn, dataset, "Нагреватель для аквариума");
-            addMedianPrice(conn, dataset, "Помпа для аквариума");
-            addMedianPrice(conn, dataset, "Лоток для кормления цыплят");
+            for (int i : Db.getAllYears(conn)){
+                int count = Db.getEarthquakesCountByYear(conn, i);
+                dataset.addValue(count, Integer.toString(i), "");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -44,10 +39,6 @@ public class Histogram {
         plot.setDomainGridlinePaint(Color.white);
         plot.setRangeGridlinePaint (Color.white);
         return chart;
-    }
-
-    private static void addMedianPrice(Connection conn, DefaultCategoryDataset dataset, String rowKey) throws SQLException {
-        dataset.addValue(Db.getMedianPrice(conn, rowKey), rowKey, "");
     }
 
     public static void SaveHistogram(JFreeChart chart, String name, int width, int height) {
